@@ -13,11 +13,6 @@ import keyboard from './keyboard';
 // util
 import c from './constants';
 
-if(FPS_DEBUG === true) {
-	import fpsmeter from '../vendor/fpsmeter';
-	const fpsDisplay = new FPSMeter({ decimals: 0, graph: true, theme: 'dark', left: 'auto', right: '0px' });
-}
-
 /**
  * ===============================================================
  * Primary manager for the entire game
@@ -29,8 +24,7 @@ let timestep = 1000 / 60,
 	lastFrameTimeMs = 0,
 	renderer,
 	updater,
-	mainCamera,
-	ctx;
+	mainCamera;
 
 class Game {
 	constructor() {
@@ -48,14 +42,11 @@ class Game {
 	 * ------------------------------------------------------------
 	 */
 
-	setUp(canvas) {
+	setUp(backgroundCanvas, entitiesCanvas, foregroundCanvas) {
 		// create instances of our game objects
-		renderer = new Renderer(canvas);
+		renderer = new Renderer(backgroundCanvas, entitiesCanvas, foregroundCanvas);
 		updater = new Updater();
 		mainCamera = new Camera(Level, c.canvas.WIDTH, c.canvas.HEIGHT);
-
-		// get the rendering context
-		ctx = renderer.getContext();
 
 		// add event listeners for keyboard input
 		keyboard.listenForEvents([
@@ -79,8 +70,6 @@ class Game {
 	 */
 
 	mainLoop(timestamp) {
-		if(FPS_DEBUG === true) fpsDisplay.tickStart();
-
 		// do some timing math that I don't understand
 		timestepDelta = timestepDelta + timestamp - lastFrameTimeMs;
 		lastFrameTimeMs = timestamp;
@@ -93,10 +82,8 @@ class Game {
 		// always call draw()
 		this.draw();
 
-		fpsDisplay.tick();
-
 		// recursively call mainLoop()
-		if(FPS_DEBUG === true) requestAnimationFrame(this.mainLoop);
+		requestAnimationFrame(this.mainLoop);
 	}
 
 	/**
@@ -119,11 +106,9 @@ class Game {
 	 */
 
 	draw() {
-		ctx.clearRect(0, 0, c.canvas.WIDTH, c.canvas.HEIGHT);
-
-		renderer.renderLevel(Level, 0); // background layer
-		// renderer.renderPlayer(); // player's character
-		renderer.renderLevel(Level, 1); // top layer
+		renderer.renderLevel(Level, 0, mainCamera); // background layer
+		renderer.renderPlayer(); // player's character
+		renderer.renderLevel(Level, 1, mainCamera); // top layer
 	}
 }
 

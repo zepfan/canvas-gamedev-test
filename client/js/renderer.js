@@ -8,12 +8,16 @@ import c from './constants';
  * ===============================================================
  */
 
-let canvas,
-	ctx;
+let bgCanvas,
+	backgroundCtx,
+	entitiesCanvas,
+	entitiesCtx,
+	foregroundCanvas,
+	foregroundCtx;
 
 // set the player's character sprite
 const characterImg = new Image();
-characterImg.src = Player.spriteSrc;
+const tileSheet = new Image();
 
 class Renderer {
 
@@ -25,26 +29,42 @@ class Renderer {
 	 * ------------------------------------------------------------
 	 */
 
-	constructor(canvasRef) {
-		// define our primary game canvas
-		canvas = canvasRef;
-		ctx = canvas.getContext('2d');
+	constructor(backgroundCanvasRef, entitiesCanvasRef, foregroundCanvasRef) {
+		// define the background canvas
+		bgCanvas = backgroundCanvasRef;
+		backgroundCtx = bgCanvas.getContext('2d');
+
+		// define the entities
+		entitiesCanvas = entitiesCanvasRef;
+		entitiesCtx = entitiesCanvas.getContext('2d');
+
+		// define the foreground
+		foregroundCanvas = foregroundCanvasRef;
+		foregroundCtx = foregroundCanvas.getContext('2d');
 
 		// set some base styles
-		canvas.width = c.canvas.WIDTH;
-		canvas.height = c.canvas.HEIGHT;
-		canvas.style.backgroundColor = "#eee";
-		canvas.style.border = "1px solid #aaa";
+		bgCanvas.width = entitiesCanvas.width = foregroundCanvas.width = c.canvas.WIDTH;
+		bgCanvas.height = entitiesCanvas.height = foregroundCanvas.height = c.canvas.HEIGHT;
+		bgCanvas.style.backgroundColor = "#eee";
+		bgCanvas.style.border = "1px solid #aaa";
 	}
 
 	/**
 	 * ------------------------------------------------------------
-	 * Return the rendering context
+	 * Return the rendering contexts
 	 * ------------------------------------------------------------
 	 */
 
-	getContext() {
-		return ctx;
+	getBackgroundContext() {
+		return backgroundCtx;
+	}
+
+	getEntitiesContext() {
+		return entitiesCtx;
+	}
+
+	getForegroundContext() {
+		return foregroundCtx;
 	}
 
 	/**
@@ -71,9 +91,9 @@ class Renderer {
 		} else {
 			// default to a basic rendering if no camera is present
 			startCol = 0;
-			endCol = level.columns;
+			endCol = c.canvas.WIDTH / level.columns;
 			startRow = 0;
-			endRow = level.rows;
+			endRow = c.canvas.HEIGHT / level.columns;
 			offsetX = 0;
 			offsetY = 0;
 		}
@@ -81,9 +101,9 @@ class Renderer {
 		// get the tile number for each index of our map array
 		for(let col = startCol; col <= endCol; col++) {
 			for(let row = startRow; row <= endRow; row++) {
-				let tile = level.getTile(layer, col, row);
-				let x = (col - startCol) * level.tileSize + offsetX;
-				let y = (row - startRow) * level.tileSize + offsetY;
+				let tile = level.getTile(layer, col, row),
+					x = (col - startCol) * level.tileSize + offsetX,
+					y = (row - startRow) * level.tileSize + offsetY;
 
 				// `0` represents an empty tile
 				if(tile !== 0) renderTile(tile, x, y);
@@ -92,8 +112,10 @@ class Renderer {
 
 		// draw the tiles on the canvas
 		function renderTile(tile, x, y) {
-			let tileSheet = new Image();
-			tileSheet.src = '../img/tiles.png';
+			let ctx = layer === 0 ? backgroundCtx : foregroundCtx;
+			tileSheet.src = level.spritesheet;
+
+			foregroundCtx.clearRect(x, y, c.canvas.WIDTH, c.canvas.HEIGHT);
 
 			ctx.drawImage(
 				tileSheet, // image
@@ -118,7 +140,10 @@ class Renderer {
 	 */
 
 	renderPlayer() {
-		ctx.drawImage(
+		entitiesCtx.clearRect(0, 0, c.canvas.WIDTH, c.canvas.HEIGHT);
+		characterImg.src = Player.spriteSrc;
+
+		entitiesCtx.drawImage(
 			characterImg, 
 			Player.xPos, 
 			Player.yPos, 

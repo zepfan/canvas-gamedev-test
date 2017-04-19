@@ -6,6 +6,8 @@ import game from './js/game';
  * ===============================================================
  */
 
-let canvas = document.querySelector('#game');
+const backgroundCanvas = document.querySelector('#background');
+const entitiesCanvas = document.querySelector('#entities');
+const foregroundCanvas = document.querySelector('#foreground');
 
-game.setUp(canvas);
+game.setUp(backgroundCanvas, entitiesCanvas, foregroundCanvas);
