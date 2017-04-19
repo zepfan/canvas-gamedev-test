@@ -12,8 +12,11 @@ import keyboard from './keyboard';
 
 // util
 import c from './constants';
-import fpsmeter from '../vendor/fpsmeter';
-const fpsDisplay = new FPSMeter({ decimals: 0, graph: true, theme: 'dark', left: 'auto', right: '0px' });
+
+if(FPS_DEBUG === true) {
+	import fpsmeter from '../vendor/fpsmeter';
+	const fpsDisplay = new FPSMeter({ decimals: 0, graph: true, theme: 'dark', left: 'auto', right: '0px' });
+}
 
 /**
  * ===============================================================
@@ -76,7 +79,7 @@ class Game {
 	 */
 
 	mainLoop(timestamp) {
-		fpsDisplay.tickStart();
+		if(FPS_DEBUG === true) fpsDisplay.tickStart();
 
 		// do some timing math that I don't understand
 		timestepDelta = timestepDelta + timestamp - lastFrameTimeMs;
@@ -93,7 +96,7 @@ class Game {
 		fpsDisplay.tick();
 
 		// recursively call mainLoop()
-		requestAnimationFrame(this.mainLoop);
+		if(FPS_DEBUG === true) requestAnimationFrame(this.mainLoop);
 	}
 
 	/**
