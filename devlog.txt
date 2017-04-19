@@ -1,0 +1,4 @@
+# Current things to do:
+- Get collision detection working on static map
+- Get camera.follow behavior to work
+- Learn more about profiling/do some optimizations
