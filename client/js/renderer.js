@@ -1,3 +1,4 @@
+import Player from './player';
 import c from './constants';
 
 /**
@@ -9,6 +10,10 @@ import c from './constants';
 
 let canvas,
 	ctx;
+
+// set the player's character sprite
+const characterImg = new Image();
+characterImg.src = Player.spriteSrc;
 
 class Renderer {
 
@@ -23,13 +28,23 @@ class Renderer {
 	constructor(canvasRef) {
 		// define our primary game canvas
 		canvas = canvasRef;
-		ctx = canvas.getContext('2d')
+		ctx = canvas.getContext('2d');
 
 		// set some base styles
 		canvas.width = c.canvas.WIDTH;
 		canvas.height = c.canvas.HEIGHT;
 		canvas.style.backgroundColor = "#eee";
 		canvas.style.border = "1px solid #aaa";
+	}
+
+	/**
+	 * ------------------------------------------------------------
+	 * Return the rendering context
+	 * ------------------------------------------------------------
+	 */
+
+	getContext() {
+		return ctx;
 	}
 
 	/**
@@ -102,16 +117,13 @@ class Renderer {
 	 * ------------------------------------------------------------
 	 */
 
-	renderPlayer(player) {
-		let characterImg = new Image();
-		characterImg.src = player.spriteSrc;
-
+	renderPlayer() {
 		ctx.drawImage(
 			characterImg, 
-			player.xPos, 
-			player.yPos, 
-			player.width, 
-			player.height
+			Player.xPos, 
+			Player.yPos, 
+			Player.width, 
+			Player.height
 		);
 	}
 }

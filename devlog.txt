@@ -8,3 +8,12 @@
 - http://www.html5gamedevs.com/topic/499-tile-rendering-strategies-for-mobile-html5/
 - https://addyosmani.com/blog/taming-the-unicorn-easing-javascript-memory-profiling-in-devtools/
 - https://gamealchemist.wordpress.com/2013/02/02/no-more-garbage-pooling-objects-built-with-constructor-functions/
+- http://www.html5gamedevs.com/topic/7735-myths-and-realities-of-canvas-javascript-performance/
+- https://coderwall.com/p/iygcpa/gameloop-the-correct-way
+- http://stackoverflow.com/questions/25612452/html5-canvas-game-loop-delta-time-calculations
+- http://gafferongames.com/game-physics/fix-your-timestep/
+- http://isaacsukin.com/news/2015/01/detailed-explanation-javascript-game-loops-and-timing
+- https://developers.google.com/web/tools/chrome-devtools/memory-problems/
+- https://addyosmani.com/blog/performance-optimisation-with-timeline-profiles/
+- https://web-design-weekly.com/2014/09/18/understanding-measuring-events-with-chrome-devtools/
+- http://stackoverflow.com/questions/20029983/improving-html5-canvas-with-double-buffering

@@ -12,6 +12,8 @@ import keyboard from './keyboard';
 
 // util
 import c from './constants';
+import fpsmeter from '../vendor/fpsmeter';
+const fpsDisplay = new FPSMeter({ decimals: 0, graph: true, theme: 'dark', left: 'auto', right: '0px' });
 
 /**
  * ===============================================================
@@ -24,7 +26,8 @@ let timestep = 1000 / 60,
 	lastFrameTimeMs = 0,
 	renderer,
 	updater,
-	mainCamera;
+	mainCamera,
+	ctx;
 
 class Game {
 	constructor() {
@@ -48,6 +51,9 @@ class Game {
 		updater = new Updater();
 		mainCamera = new Camera(Level, c.canvas.WIDTH, c.canvas.HEIGHT);
 
+		// get the rendering context
+		ctx = renderer.getContext();
+
 		// add event listeners for keyboard input
 		keyboard.listenForEvents([
 			c.inputs.keyboard.LEFT,
@@ -70,6 +76,8 @@ class Game {
 	 */
 
 	mainLoop(timestamp) {
+		fpsDisplay.tickStart();
+
 		// do some timing math that I don't understand
 		timestepDelta = timestepDelta + timestamp - lastFrameTimeMs;
 		lastFrameTimeMs = timestamp;
@@ -81,6 +89,8 @@ class Game {
 
 		// always call draw()
 		this.draw();
+
+		fpsDisplay.tick();
 
 		// recursively call mainLoop()
 		requestAnimationFrame(this.mainLoop);
@@ -95,7 +105,7 @@ class Game {
 	 */
 
 	update(delta) {
-		// updater.updateCamera(mainCamera, delta, keyboard.keys);
+		updater.updateCamera(mainCamera, delta, keyboard.keys);
 		// updater.updatePlayerPosition(Player, keyboard.keys);
 	}
 
@@ -106,9 +116,11 @@ class Game {
 	 */
 
 	draw() {
-		// renderer.renderLevel(Level, 0); // background layer
-		renderer.renderPlayer(Player); // player's character
-		// renderer.renderLevel(Level, 1); // top layer
+		ctx.clearRect(0, 0, c.canvas.WIDTH, c.canvas.HEIGHT);
+
+		renderer.renderLevel(Level, 0); // background layer
+		// renderer.renderPlayer(); // player's character
+		renderer.renderLevel(Level, 1); // top layer
 	}
 }
 
