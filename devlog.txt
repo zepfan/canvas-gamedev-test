@@ -2,3 +2,9 @@
 - Get collision detection working on static map
 - Get camera.follow behavior to work
 - Learn more about profiling/do some optimizations
+
+# Articles to check out:
+- http://codetheory.in/optimizing-html5-canvas-to-improve-your-game-performance/
+- http://www.html5gamedevs.com/topic/499-tile-rendering-strategies-for-mobile-html5/
+- https://addyosmani.com/blog/taming-the-unicorn-easing-javascript-memory-profiling-in-devtools/
+- https://gamealchemist.wordpress.com/2013/02/02/no-more-garbage-pooling-objects-built-with-constructor-functions/
