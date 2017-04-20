@@ -1,17 +1,17 @@
-// classes
-import Updater from './updater';
-import Renderer from './renderer';
-import Camera from './camera';
+// gameobjects
+import Updater from './Updater/Updater';
+import Renderer from './Renderer/Renderer';
+import Player from './Player/Player';
+import Camera from './Camera/Camera';
 
 // objects
-import Level from './level';
-import Player from './player';
+import Level from './Level/Level';
 
 // user input
-import keyboard from './keyboard';
+import keyboard from './Keyboard/Keyboard';
 
 // util
-import c from './constants';
+import c from './util/constants';
 
 /**
  * ===============================================================
@@ -24,7 +24,9 @@ let timestep = 1000 / 60,
 	lastFrameTimeMs = 0,
 	renderer,
 	updater,
-	mainCamera;
+	mainCamera,
+	player,
+	level;
 
 class Game {
 	constructor() {
@@ -43,10 +45,12 @@ class Game {
 	 */
 
 	setUp(backgroundCanvas, entitiesCanvas, foregroundCanvas) {
-		// create instances of our game objects
+		// create instances of our gameobjects
 		renderer = new Renderer(backgroundCanvas, entitiesCanvas, foregroundCanvas);
 		updater = new Updater();
-		mainCamera = new Camera(Level, c.canvas.WIDTH, c.canvas.HEIGHT);
+		player = new Player();
+		level = new Level();
+		mainCamera = new Camera(level, c.canvas.WIDTH, c.canvas.HEIGHT);
 
 		// add event listeners for keyboard input
 		keyboard.listenForEvents([
@@ -96,7 +100,7 @@ class Game {
 
 	update(delta) {
 		updater.updateCamera(mainCamera, delta, keyboard.keys);
-		// updater.updatePlayerPosition(Player, keyboard.keys);
+		// updater.updatePlayerPosition(player, keyboard.keys);
 	}
 
 	/**
@@ -106,9 +110,9 @@ class Game {
 	 */
 
 	draw() {
-		renderer.renderLevel(Level, 0, mainCamera); // background layer
-		renderer.renderPlayer(); // player's character
-		renderer.renderLevel(Level, 1, mainCamera); // top layer
+		renderer.renderLevel(level, 0, mainCamera); // background layer
+		renderer.renderPlayer(player); // player's character
+		renderer.renderLevel(level, 1, mainCamera); // top layer
 	}
 }
 

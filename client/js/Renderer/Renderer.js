@@ -1,5 +1,4 @@
-import Player from './player';
-import c from './constants';
+import c from '../util/constants';
 
 /**
  * ===============================================================
@@ -8,7 +7,7 @@ import c from './constants';
  * ===============================================================
  */
 
-let bgCanvas,
+let backgroundCanvas,
 	backgroundCtx,
 	entitiesCanvas,
 	entitiesCtx,
@@ -25,28 +24,30 @@ class Renderer {
 	 * ------------------------------------------------------------
 	 * Construct the canvas to for the game
 	 * 
-	 * @param obj canvasRef [The main Level object]
+	 * @param obj backgroundCanvasRef [The main background canvas]
+	 * @param obj entitiesCanvasRef   [The main entities canvas]
+	 * @param obj foregroundCanvasRef [The main foreground canvas]
 	 * ------------------------------------------------------------
 	 */
 
 	constructor(backgroundCanvasRef, entitiesCanvasRef, foregroundCanvasRef) {
 		// define the background canvas
-		bgCanvas = backgroundCanvasRef;
-		backgroundCtx = bgCanvas.getContext('2d');
+		backgroundCanvas = backgroundCanvasRef;
+		backgroundCtx = backgroundCanvas.getContext('2d');
 
-		// define the entities
+		// define the entities canvas
 		entitiesCanvas = entitiesCanvasRef;
 		entitiesCtx = entitiesCanvas.getContext('2d');
 
-		// define the foreground
+		// define the foreground canvas
 		foregroundCanvas = foregroundCanvasRef;
 		foregroundCtx = foregroundCanvas.getContext('2d');
 
 		// set some base styles
-		bgCanvas.width = entitiesCanvas.width = foregroundCanvas.width = c.canvas.WIDTH;
-		bgCanvas.height = entitiesCanvas.height = foregroundCanvas.height = c.canvas.HEIGHT;
-		bgCanvas.style.backgroundColor = "#eee";
-		bgCanvas.style.border = "1px solid #aaa";
+		backgroundCanvas.width = entitiesCanvas.width = foregroundCanvas.width = c.canvas.WIDTH;
+		backgroundCanvas.height = entitiesCanvas.height = foregroundCanvas.height = c.canvas.HEIGHT;
+		backgroundCanvas.style.backgroundColor = "#eee";
+		backgroundCanvas.style.border = "1px solid #aaa";
 	}
 
 	/**
@@ -71,8 +72,8 @@ class Renderer {
 	 * ------------------------------------------------------------
 	 * Render the current level
 	 * 
-	 * @param obj level  [The main Level object]
-	 * @param num layer  [The desired layer from the Level.map array]
+	 * @param obj level  [The main level object]
+	 * @param num layer  [The desired layer from the level.map array]
 	 * @param obj camera [A camera by which the level is rendered]
 	 * ------------------------------------------------------------
 	 */
@@ -135,20 +136,20 @@ class Renderer {
 	 * ------------------------------------------------------------
 	 * Render the currently player
 	 * 
-	 * @param obj player [The main Player object]
+	 * @param obj player [The main player object]
 	 * ------------------------------------------------------------
 	 */
 
-	renderPlayer() {
+	renderPlayer(player) {
 		entitiesCtx.clearRect(0, 0, c.canvas.WIDTH, c.canvas.HEIGHT);
-		characterImg.src = Player.spriteSrc;
+		characterImg.src = player.spriteSrc;
 
 		entitiesCtx.drawImage(
 			characterImg, 
-			Player.xPos, 
-			Player.yPos, 
-			Player.width, 
-			Player.height
+			player.xPos, 
+			player.yPos, 
+			player.width, 
+			player.height
 		);
 	}
 }
