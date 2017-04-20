@@ -146,8 +146,8 @@ class Renderer {
 
 		entitiesCtx.drawImage(
 			characterImg, 
-			player.xPos, 
-			player.yPos, 
+			player.screenX,
+			player.screenY, 
 			player.width, 
 			player.height
 		);

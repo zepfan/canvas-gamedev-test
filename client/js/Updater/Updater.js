@@ -20,19 +20,19 @@ class Updater {
 
 	updatePlayerPosition(player, keys) {
 		if(checkDirection('left')) {
-			player.xPos -= player.speed;
+			player.x -= player.speed;
 		}
 
 		if(checkDirection('right')) {
-			player.xPos += player.speed
+			player.x += player.speed
 		}
 
 		if(checkDirection('up')) {
-			player.yPos -= player.speed
+			player.y -= player.speed
 		}
 
 		if(checkDirection('down')) {
-			player.yPos += player.speed;
+			player.y += player.speed;
 		}
 
 		// just doing this outside of the conditionals for cleanliness
@@ -40,19 +40,19 @@ class Updater {
 			switch(direction) {
 				case 'left':
 					return keys[c.inputs.keyboard.LEFT] 
-						&& player.xPos > 0;
+						&& player.x > 0;
 					break;
 				case 'right':
 					return keys[c.inputs.keyboard.RIGHT] 
-						&& player.xPos < (c.canvas.WIDTH - player.width)
+						&& player.x < (c.canvas.WIDTH - player.width)
 					break;
 				case 'up':
 					return keys[c.inputs.keyboard.UP] 
-						&& player.yPos > 0;
+						&& player.y > 0;
 					break;
 				case 'down':
 					return keys[c.inputs.keyboard.DOWN] 
-						&& player.yPos < (c.canvas.HEIGHT - player.height);
+						&& player.y < (c.canvas.HEIGHT - player.height);
 					break;
 				default:
 					break;
@@ -80,6 +80,34 @@ class Updater {
 		if(keys[c.inputs.keyboard.DOWN]) dirY = 1;
 
 		camera.move(delta, dirX, dirY);
+	}
+
+
+	updatePlayerPosition2(player, delta, keys) {
+		let dirX = 0,
+			dirY = 0;
+
+		if(keys[c.inputs.keyboard.LEFT] && player.screenX > 0) {
+			dirX = -1;
+		}
+
+		if(keys[c.inputs.keyboard.RIGHT] && player.screenX < (c.canvas.WIDTH - player.width)) {
+			dirX = 1;
+		}
+
+		if(keys[c.inputs.keyboard.UP] && player.screenY > 0) {
+			dirY = -1;
+		}
+
+		if(keys[c.inputs.keyboard.DOWN] && player.screenY < (c.canvas.HEIGHT - player.height)) {
+			dirY = 1;
+		}
+
+		player.move(delta, dirX, dirY);
+	}
+
+	updateCamera2(camera) {
+		camera.update();
 	}
 }
 

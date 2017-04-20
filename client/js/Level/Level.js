@@ -9,11 +9,11 @@ import LevelData from './LevelData';
 
 class Level {
 	constructor() {
-		this.spritesheet = '../img/tiles.png';
 		this.tileSize = 50;
 		this.columns = 32;
 		this.rows = 20;
 		this.map = LevelData.level_1.map;
+		this.spritesheet = LevelData.level_1.spriteSheet;
 	}
 
 	getTile(layer, col, row) {
