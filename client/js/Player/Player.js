@@ -13,18 +13,18 @@ class Player {
 		this.x = 50;
 		this.y = 50;
 
-		this.speed = 0.3;
+		this.speed = 0.15;
 
 		this.spriteSrc = './img/character.png';
 	}
 
-	move(delta, dirX, dirY) {
+	move(delta, dirX, dirY, cols, rows, tileSize) {
 		this.x += dirX * this.speed * delta;
 		this.y += dirY * this.speed * delta;
 
 		// clamp coordinates
-		let maxX = 32 * 50;
-		let maxY = 20 * 50;
+		let maxX = cols * tileSize - this.width;
+		let maxY = rows * tileSize - this.height;
 		this.x = Math.max(0, Math.min(this.x, maxX));
 		this.y = Math.max(0, Math.min(this.y, maxY));
 	}

@@ -9,9 +9,9 @@ import LevelData from './LevelData';
 
 class Level {
 	constructor() {
-		this.tileSize = 50;
-		this.columns = 32;
-		this.rows = 20;
+		this.tileSize = LevelData.level_1.tileSize;
+		this.columns = LevelData.level_1.columns;
+		this.rows = LevelData.level_1.rows;
 		this.map = LevelData.level_1.map;
 		this.spritesheet = LevelData.level_1.spriteSheet;
 	}

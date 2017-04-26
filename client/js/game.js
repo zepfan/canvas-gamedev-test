@@ -52,6 +52,7 @@ class Game {
 		level = new Level();
 		mainCamera = new Camera(level, c.canvas.WIDTH, c.canvas.HEIGHT);
 
+		// set the following on the main camera
 		mainCamera.follow(player);
 
 		// add event listeners for keyboard input
@@ -101,11 +102,8 @@ class Game {
 	 */
 
 	update(delta) {
-		// updater.updateCamera(mainCamera, delta, keyboard.keys);
-		// updater.updatePlayerPosition(player, keyboard.keys);
-
-		updater.updatePlayerPosition2(player, delta, keyboard.keys);
-		updater.updateCamera2(mainCamera);
+		updater.updatePlayerPosition(player, level, delta, keyboard.keys);
+		updater.updateCamera(mainCamera);
 	}
 
 	/**

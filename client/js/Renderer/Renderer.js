@@ -7,6 +7,9 @@ import c from '../util/constants';
  * ===============================================================
  */
 
+const characterImg = new Image(),
+	tileSheet = new Image();
+
 let backgroundCanvas,
 	backgroundCtx,
 	entitiesCanvas,
@@ -14,15 +17,11 @@ let backgroundCanvas,
 	foregroundCanvas,
 	foregroundCtx;
 
-// set the player's character sprite
-const characterImg = new Image();
-const tileSheet = new Image();
-
 class Renderer {
 
 	/**
 	 * ------------------------------------------------------------
-	 * Construct the canvas to for the game
+	 * Construct the canvases to for the game
 	 * 
 	 * @param obj backgroundCanvasRef [The main background canvas]
 	 * @param obj entitiesCanvasRef   [The main entities canvas]
@@ -52,7 +51,7 @@ class Renderer {
 
 	/**
 	 * ------------------------------------------------------------
-	 * Return the rendering contexts
+	 * Return the rendering contexts if needed elsewhere
 	 * ------------------------------------------------------------
 	 */
 
@@ -66,6 +65,27 @@ class Renderer {
 
 	getForegroundContext() {
 		return foregroundCtx;
+	}
+
+	/**
+	 * ------------------------------------------------------------
+	 * Render the currently player
+	 * 
+	 * @param obj player [The main player object]
+	 * ------------------------------------------------------------
+	 */
+
+	renderPlayer(player) {
+		entitiesCtx.clearRect(0, 0, c.canvas.WIDTH, c.canvas.HEIGHT);
+		characterImg.src = player.spriteSrc;
+
+		entitiesCtx.drawImage(
+			characterImg, 
+			player.screenX || player.x,
+			player.screenY || player.y, 
+			player.width, 
+			player.height
+		);
 	}
 
 	/**
@@ -90,7 +110,7 @@ class Renderer {
 			offsetX = -camera.x + startCol * level.tileSize;
 			offsetY = -camera.y + startRow * level.tileSize;
 		} else {
-			// default to a basic rendering if no camera is present
+			// default to a straight forward render if no camera is present
 			startCol = 0;
 			endCol = c.canvas.WIDTH / level.columns;
 			startRow = 0;
@@ -130,27 +150,6 @@ class Renderer {
 				level.tileSize // destination height
 			);
 		}
-	}
-
-	/**
-	 * ------------------------------------------------------------
-	 * Render the currently player
-	 * 
-	 * @param obj player [The main player object]
-	 * ------------------------------------------------------------
-	 */
-
-	renderPlayer(player) {
-		entitiesCtx.clearRect(0, 0, c.canvas.WIDTH, c.canvas.HEIGHT);
-		characterImg.src = player.spriteSrc;
-
-		entitiesCtx.drawImage(
-			characterImg, 
-			player.screenX,
-			player.screenY, 
-			player.width, 
-			player.height
-		);
 	}
 }
 
