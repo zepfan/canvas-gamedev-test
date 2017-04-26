@@ -94,7 +94,7 @@ class Renderer {
 	 * 
 	 * @param obj level  [The main level object]
 	 * @param num layer  [The desired layer from the level.map array]
-	 * @param obj camera [A camera by which the level is rendered]
+	 * @param obj camera [A camera following the player]
 	 * ------------------------------------------------------------
 	 */
 
@@ -149,6 +149,40 @@ class Renderer {
 				level.tileSize, // destination width
 				level.tileSize // destination height
 			);
+		}
+	}
+
+	/**
+	 * ------------------------------------------------------------
+	 * Draw grid around each tile of the map (used for debugging)
+	 *
+	 * @param obj level  [The main level object]
+	 * @param obj camera [A camera following the player]
+	 * ------------------------------------------------------------
+	 */
+	
+	drawGrid(level, camera) {
+		let width = level.columns * level.tileSize,
+			height = level.rows * level.tileSize,
+			x,
+			y;
+
+		for(let r = 0; r < level.rows; r++) {
+			x = - camera.x;
+			y = r * level.tileSize - camera.y;
+			foregroundCtx.beginPath();
+			foregroundCtx.moveTo(x, y);
+			foregroundCtx.lineTo(width, y);
+			foregroundCtx.stroke();
+		}
+
+		for(let c = 0; c < level.columns; c++) {
+			x = c * level.tileSize - camera.x;
+			y = - camera.y;
+			foregroundCtx.beginPath();
+			foregroundCtx.moveTo(x, y);
+			foregroundCtx.lineTo(x, height);
+			foregroundCtx.stroke();
 		}
 	}
 }

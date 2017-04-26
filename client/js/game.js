@@ -48,9 +48,9 @@ class Game {
 		// create instances of our gameobjects
 		renderer = new Renderer(backgroundCanvas, entitiesCanvas, foregroundCanvas);
 		updater = new Updater();
-		player = new Player();
 		level = new Level();
 		mainCamera = new Camera(level, c.canvas.WIDTH, c.canvas.HEIGHT);
+		player = new Player(level);
 
 		// set the following on the main camera
 		mainCamera.follow(player);
@@ -116,6 +116,8 @@ class Game {
 		renderer.renderLevel(level, 0, mainCamera); // background layer
 		renderer.renderPlayer(player); // player's character
 		renderer.renderLevel(level, 1, mainCamera); // top layer
+
+		renderer.drawGrid(level, mainCamera); // grid for debugging
 	}
 }
 
