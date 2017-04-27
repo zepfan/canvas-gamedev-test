@@ -29,6 +29,13 @@ let timestep = 1000 / 60,
 	level;
 
 class Game {
+
+	/**
+	 * ------------------------------------------------------------
+	 * 
+	 * ------------------------------------------------------------
+	 */
+
 	constructor() {
 		// bind methods to the class
 		this.mainLoop = this.mainLoop.bind(this);

@@ -5,6 +5,13 @@
  */
 
 class Camera {
+
+	/**
+	 * ------------------------------------------------------------
+	 *
+	 * ------------------------------------------------------------
+	 */
+	
 	constructor(level, width, height) {
 		this.x = 0;
 		this.y = 0;
@@ -14,12 +21,24 @@ class Camera {
 		this.maxY = level.rows * level.tileSize - height;
 	}
 
+	/**
+	 * ------------------------------------------------------------
+	 *
+	 * ------------------------------------------------------------
+	 */
+	
 	follow(sprite) {
 		this.following = sprite;
 		sprite.screenX = 0;
 		sprite.screenY = 0;
 	}
 
+	/**
+	 * ------------------------------------------------------------
+	 *
+	 * ------------------------------------------------------------
+	 */
+	
 	update() {
 		// assume the sprite will be centered most of the time
 		this.following.screenX = this.width / 2;

@@ -8,6 +8,13 @@ import LevelData from './LevelData';
  */
 
 class Level {
+
+	/**
+	 * ------------------------------------------------------------
+	 *
+	 * ------------------------------------------------------------
+	 */
+	
 	constructor() {
 		this.tileSize = LevelData.level_1.tileSize;
 		this.columns = LevelData.level_1.columns;

@@ -6,17 +6,26 @@
  */
 
 class Player {
-	constructor(level) {
-		this.height = 45;
-		this.width = 45;
-		this.map = level;
 
+	/**
+	 * ------------------------------------------------------------
+	 * Construct the main Player object
+	 *
+	 * @param obj level [The main level object]
+	 * ------------------------------------------------------------
+	 */
+
+	constructor(level) {
 		this.x = 50;
 		this.y = 50;
 
+		this.height = 45;
+		this.width = 45;
+		this.spriteSrc = './img/character.png';
+
 		this.speed = 0.15;
 
-		this.spriteSrc = './img/character.png';
+		this.map = level;
 	}
 
 	/**
@@ -33,15 +42,17 @@ class Player {
 	 */
 
 	move(delta, dirX, dirY, cols, rows, tileSize) {
+		let maxX = cols * tileSize - this.width,
+			maxY = rows * tileSize - this.height;
+
+		// update player's position
 		this.x += dirX * this.speed * delta;
 		this.y += dirY * this.speed * delta;
 
 		// check collision
 		this._collide(dirX, dirY);
 
-		// clamp coordinates
-		let maxX = cols * tileSize - this.width;
-		let maxY = rows * tileSize - this.height;
+		// stop coordinates from extending outside of the map
 		this.x = Math.max(0, Math.min(this.x, maxX));
 		this.y = Math.max(0, Math.min(this.y, maxY));
 	}
@@ -58,18 +69,21 @@ class Player {
 	_collide(dirX, dirY) {
 		let row,
 			col,
+			collision,
 			left = this.x - this.width / 2,
 			right = this.x + this.width / 2 - 1,
 			top = this.y - this.height / 2,
 			bottom = this.y + this.height / 2 - 1;
 
-		let collision = this.map.isSolidTile(left, top) ||
+		// check if current tile is impassable
+		collision = this.map.isSolidTile(left, top) ||
 			this.map.isSolidTile(right, top) ||
 			this.map.isSolidTile(right, bottom) ||
 			this.map.isSolidTile(left, bottom);
 
 		if(!collision) { return false; }
 
+		// if it is impassable...
 		if (dirY > 0) {
 			row = this.map.getRow(bottom);
 			this.y = -this.height / 2 + this.map.getY(row);
